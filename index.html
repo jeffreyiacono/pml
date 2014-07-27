@@ -73,8 +73,8 @@ plmTrain &lt;- read.csv(&quot;pml-training.csv&quot;, header = TRUE, na.strings 
 <pre><code># remove any cols that are missing data
 plmTrain &lt;- plmTrain[, names(plmTrain)[sapply(plmTrain, function(x) { !any(is.na(x)) })]]</code></pre>
 <p>Next, I dropped the following columns:</p>
-<pre><code>  index, user_name, raw_timestamp_part_1, raw_timestamp_part_2, cvtd_timestamp,
-  new_window, num_window</code></pre>
+<pre><code>index, user_name, raw_timestamp_part_1, raw_timestamp_part_2, cvtd_timestamp,
+new_window, num_window</code></pre>
 <p>These columns were either categorical or did not seemingly provide any predictive ability. This was accomplished via:</p>
 <pre><code># remove non-numerics
 plmTrain &lt;- plmTrain[, -c(1, 2, 3, 4, 5, 6, 7)]</code></pre>
