@@ -8,10 +8,14 @@ output: html_document
 **Predicting _classe_ from [groupware](http://groupware.les.inf.puc-rio.br/har)
 data set.**
 
-To start, I loaded in the training data, normalizing some of the error values
-(ex: "" (blank), "#DIV/0!", etc.) to be NAs:
+To start, I loaded up the caret package and the training data, normalizing some
+of the error values (ex: "" (blank), "#DIV/0!", etc.) to be NAs:
 
 ```
+# install + load caret
+install.packages("caret")
+library(caret)
+
 # read training data in, normalize bad values
 plmTrain <- read.csv("pml-training.csv", header = TRUE, na.strings = c("NA","", "#DIV/0!"))
 ```

@@ -61,8 +61,12 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 
 <p><strong>Predicting <em>classe</em> from <a href="http://groupware.les.inf.puc-rio.br/har">groupware</a> data set.</strong></p>
-<p>To start, I loaded in the training data, normalizing some of the error values (ex: “” (blank), “#DIV/0!”, etc.) to be NAs:</p>
-<pre><code># read training data in, normalize bad values
+<p>To start, I loaded up the caret package and the training data, normalizing some of the error values (ex: “” (blank), “#DIV/0!”, etc.) to be NAs:</p>
+<pre><code># install + load caret
+install.packages(&quot;caret&quot;)
+library(caret)
+
+# read training data in, normalize bad values
 plmTrain &lt;- read.csv(&quot;pml-training.csv&quot;, header = TRUE, na.strings = c(&quot;NA&quot;,&quot;&quot;, &quot;#DIV/0!&quot;))</code></pre>
 <p>I then removed any columns that were missing data:</p>
 <pre><code># remove any cols that are missing data
