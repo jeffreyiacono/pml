@@ -95,15 +95,15 @@ which(M &gt; 0.95, arr.ind = TRUE)</code></pre>
 preProc &lt;- preProcess(training[, -53], method = &quot;pca&quot;, threshold = 0.95)
 trainPC &lt;- predict(preProc, training[,-53])</code></pre>
 <p>PCA needed 25 components to capture 95 percent of the variance, so we’ve further refined our feature set down.</p>
-<p>Now it was time to train our model. I opted for a Random Forest model using the Caret package, making sure to set the data attribute to the trainPC variable that contains the new principle components calculated in the prior step:</p>
-<pre><code>modelFit &lt;- train(training$classe ~ ., method = &quot;rf&quot;, data = trainPC)</code></pre>
-<p>This process bootstrapped 25 times and produced a final model with an <strong>out of sample error estimate of 2.35%</strong>.</p>
-<p>To cross-validate, I calculated the sub-tests’s principle components and predicted against this data set, using the model from the prior step:</p>
+<p>Now it was time to train our model. I opted for a Random Forest model using the Caret package, making sure to set the data attribute to the trainPC variable that contains the new principle components calculated in the prior step. I also used the “cv” (cross-validation) method to instruct train to perform cross-validation during training:</p>
+<pre><code>modelFit &lt;- train(training$classe ~ ., method = &quot;rf&quot;, trControl = trainControl(method = &quot;cv&quot;), data = trainPC)</code></pre>
+<p>The model was trained over 10 iterations, each time being cross validated. The final model produced an <strong>out of sample error estimate of 2.19%</strong>.</p>
+<p>To cross-validate the final model, I calculated the sub-tests’s principle components and predicted against this data set, using the model from the prior step:</p>
 <pre><code># test
 testPC &lt;- predict(preProc, testing[, -53])</code></pre>
 <p>I then calculated the confusionMatrix to observe the results:</p>
 <pre><code>confusionMatrix(testing$classe, predict(modelFit, testPC))</code></pre>
-<p>Overall, <strong>the accuracy was 0.9777</strong>, which is inline with our expectations for out of sample error.</p>
+<p>Overall, <strong>the accuracy was 0.97</strong>, which is inline with our expectations for out of sample error.</p>
 <p>Finally, it was time to predict our 20 outcomes off of the test input file. I read in the file, trimmed down the features to only those that we have been using, predicted the principle components, and then predicted the classe outcome:</p>
 <pre><code>plmTest &lt;- read.csv(&quot;pml-testing.csv&quot;, header = TRUE)
 plmTestPC &lt;- predict(preProc, plmTest[, names(training[, -53])])
