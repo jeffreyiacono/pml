@@ -89,17 +89,20 @@ refined our feature set down.
 
 Now it was time to train our model. I opted for a Random Forest model using the
 Caret package, making sure to set the data attribute to the trainPC variable
-that contains the new principle components calculated in the prior step:
+that contains the new principle components calculated in the prior step. I also
+used the "cv" (cross-validation) method to instruct train to perform
+cross-validation during training:
 
 ```
-modelFit <- train(training$classe ~ ., method = "rf", data = trainPC)
+modelFit <- train(training$classe ~ ., method = "rf", trControl = trainControl(method = "cv"), data = trainPC)
 ```
 
-This process bootstrapped 25 times and produced a final model with an **out of
-sample error estimate of 2.35%**.
+The model was trained over 10 iterations, each time being cross validated. The
+final model produced an **out of sample error estimate of 2.19%**.
 
-To cross-validate, I calculated the sub-tests's principle components and
-predicted against this data set, using the model from the prior step:
+To cross-validate the final model, I calculated the sub-tests's principle
+components and predicted against this data set, using the model from the
+prior step:
 
 ```
 # test
@@ -112,7 +115,7 @@ I then calculated the confusionMatrix to observe the results:
 confusionMatrix(testing$classe, predict(modelFit, testPC))
 ```
 
-Overall, **the accuracy was 0.9777**, which is inline with our expectations for
+Overall, **the accuracy was 0.97**, which is inline with our expectations for
 out of sample error.
 
 Finally, it was time to predict our 20 outcomes off of the test input file. I

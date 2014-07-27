@@ -31,8 +31,8 @@ which(M > 0.95, arr.ind = TRUE)
 preProc <- preProcess(training[, -53], method = "pca", threshold = 0.95)
 trainPC <- predict(preProc, training[,-53])
 
-# train the model
-modelFit <- train(training$classe ~ ., method = "rf", data = trainPC)
+# train the model using cross-validation (default 10 folds)
+modelFit <- train(training$classe ~ ., method = "rf", trControl = trainControl(method = "cv"), data = trainPC)
 
 # test
 testPC <- predict(preProc, testing[, -53])
