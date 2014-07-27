@@ -8,6 +8,8 @@ output: html_document
 **Predicting _classe_ from [groupware](http://groupware.les.inf.puc-rio.br/har)
 data set.**
 
+Note that you can view the (github repo that generates this file and houses other scripts here)[https://github.com/jeffreyiacono/pml/tree/master].
+
 To start, I loaded up the caret package and the training data, normalizing some
 of the error values (ex: "" (blank), "#DIV/0!", etc.) to be NAs:
 
